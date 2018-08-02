@@ -5,6 +5,7 @@ from scrapy.http import Request
 from urllib import parse
 from ArticleSpider.items import JbBoleArticleItem
 from ArticleSpider.utils.common import get_md5
+import datetime
 
 
 class JobboleSpider(scrapy.Spider):
@@ -75,6 +76,10 @@ class JobboleSpider(scrapy.Spider):
 
         article_item["title"] = title
         article_item["front_image_url"] = [front_image_url]
+        try:
+            create_date = datetime.datetime.strptime(create_date, "%Y/%m/%d").date()
+        except Exception as e:
+            create_date = datetime.datetime.now().date()
         article_item["create_date"] = create_date
         article_item["praise_nums"] = praise_nums
         article_item["fav_nums"] = fav_nums
